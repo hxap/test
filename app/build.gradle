@@ -16,8 +16,35 @@ android {
         buildConfigField "String", "WEB_URL", "\"file:///android_asset/index.html\""
     }
 
+    signingConfigs {
+        release {
+            def keystoreBytes = System.getenv("KEYSTORE_BASE64")?.decodeBase64()
+            if (keystoreBytes) {
+                def keystoreFile = file('release-keystore.jks')
+                keystoreFile.withOutputStream { it.write(keystoreBytes) }
+                storeFile keystoreFile
+            } else {
+                storeFile file('release-keystore.jks') // fallback lokal
+            }
+            storePassword System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def versionName = variant.versionName
+                    def versionCode = variant.versionCode
+                    def date = new Date().format('yyyyMMdd')
+                    def appName = defaultConfig.applicationId
+                    def apkName = "${appName}-${versionName}-${date}.apk"
+                    output.outputFileName = apkName
+                }
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
