@@ -1,0 +1,45 @@
+name: Extract zip
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '**/*.zip'
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Trigger Release
+      uses: actions/github-script@v6
+      with:
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'release.yml',
+            ref: 'main'
+          })
+
+    - name: Extract ZIP
+      run: |
+        if ls *.zip 1> /dev/null 2>&1; then
+          find . -mindepth 1 -maxdepth 1 ! -name "*.zip" ! -name ".git*" -exec rm -rf {} +
+          filename=$(basename -s .zip *.zip)
+          unzip *.zip
+          cp -r "$filename"/* . 2>/dev/null || true
+          rm -rf *.zip "$filename" 2>/dev/null || true
+          git config user.name "Github Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "$filename" || echo "No changes"
+          git push origin main #ganti sesuai branch
+        else
+          echo "No ZIP file found"
+        fi
