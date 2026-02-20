@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Pilih Koneksi</title>
+	<style>
+	:root{
+	  --primary:#0a84ff;
+	  --bg:#f4f6f8;
+	  --card:#ffffff;
+	  --text:#333;
+	  --muted:#777;
+	  --radius:14px;
+	}
+	
+	/* Reset */
+	*{
+	  box-sizing:border-box;
+	  margin:0;
+	  padding:0;
+	}
+	
+	/* Body */
+	body{
+	  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+	  background:var(--bg);
+	  color:var(--text);
+	  min-height:100vh;
+	  display:flex;
+	  align-items:center;
+	  justify-content:center;
+	  padding:20px;
+	}
+	
+	/* Card */
+	.card{
+	  background:var(--card);
+	  border-radius:var(--radius);
+	  max-width:440px;
+	  width:100%;
+	  padding:28px 24px;
+	  box-shadow:0 12px 32px rgba(0,0,0,.08);
+	  text-align:center;
+	}
+	
+	/* Icon Header */
+	.icon{
+	  font-size:52px;
+	  margin-bottom:12px;
+	}
+	
+	/* Title */
+	h1{
+	  font-size:22px;
+	  margin-bottom:6px;
+	}
+	
+	/* Description */
+	p{
+	  font-size:14px;
+	  color:var(--muted);
+	  margin-bottom:18px;
+	  line-height:1.6;
+	}
+	
+	/* Button Container */
+	.urls{
+	  display:grid;
+	  grid-template-columns:1fr;
+	  gap:14px;
+	}
+	
+	/* Button */
+	a.button{
+	  display:flex;
+	  align-items:center;
+	  justify-content:center;
+	  gap:10px;
+	
+	  min-height:60px;
+	  padding:18px 16px;
+	
+	  background:var(--primary);
+	  color:#fff;
+	
+	  text-decoration:none;
+	  font-size:16px;
+	  font-weight:600;
+	
+	  border-radius:10px;
+	
+	  box-shadow:0 6px 16px rgba(10,132,255,.25);
+	
+	  transition:
+	    transform .08s ease,
+	    box-shadow .15s ease,
+	    opacity .15s ease;
+	}
+	
+	/* Secondary Button */
+	a.button.secondary{
+	  background:#e9eef3;
+	  color:#333;
+	  box-shadow:none;
+	}
+	
+	/* Icon inside button */
+	a.button span{
+	  font-size:20px;
+	}
+	
+	/* Hover */
+	a.button:hover{
+	  opacity:.95;
+	  box-shadow:0 8px 20px rgba(10,132,255,.35);
+	}
+	
+	/* Active */
+	a.button:active{
+	  transform:translateY(2px);
+	  box-shadow:0 3px 8px rgba(0,0,0,.15);
+	}
+	
+	/* Footer */
+	footer{
+	  margin-top:20px;
+	  font-size:12px;
+	  color:#999;
+	}
+	
+	/* Desktop Grid */
+	@media (min-width:600px){
+	  .urls{
+	    grid-template-columns:repeat(2,1fr);
+	  }
+	}
+	</style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">📶</div>
+    <br>
+    <h1>Pilih Alamat Router</h1>
+    <br>
+
+    <div class="urls">
+      <a class="button" href="https://192.168.7.1/cgi-bin/luci/admin/devices">
+        🔒 HTTPS
+      </a>
+      <a class="button" href="https://app.a-r.my.id/cgi-bin/luci/admin/devices">
+        🌐 CLOUDFLARE
+      </a>
+      <a class="button" href="https://a-r.my.id/cgi-bin/luci/admin/devices">
+        ☁ TAILSCALE
+      </a>
+      <a class="button secondary" href="https://perplexity.ai">
+        📚 PERPLEXITY
+      </a>
+    </div>
+
+    <footer>
+      IP target utama: 192.168.7.1
+    </footer>
+  </div>
+
+  <script>
+    // Auto retry opsional (aktifkan jika perlu)
+    // setTimeout(()=>location.href='http://192.168.7.1',6000);
+  </script>
+</body>
+</html>
